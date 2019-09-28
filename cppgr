@@ -1,0 +1,25 @@
+#!/bin/bash
+# program to search for input grep pattern via grep in C++'s include directory
+# input pattern text will be executed with `grep -nr pattern /usr/include/c++/7`
+
+if [ "$#" -lt 1 ]; then
+    echo "Not specify pattern"
+    echo "Usage: cppgr <pattern>"
+fi
+
+# build the grep command string from the input arguments
+iterator=1
+for var in "$@"
+do
+    echo $var
+    if [ $iterator -eq 1 ]; then
+        grepString="grep --color=always --exclude=tags -E -nr '$var' /usr/include/c++/9"
+    else
+        grepString="$grepString | grep --color=always -E '$var'"
+    fi 
+
+    ((iterator++))
+done
+
+echo $grepString
+eval $grepString
